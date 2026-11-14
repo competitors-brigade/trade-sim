@@ -1,0 +1,79 @@
+.ticket {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.label {
+    color: var(--ink-3);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.quick {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+}
+
+.quickButton {
+    padding: 5px 0;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--ink-2);
+    font-size: 12px;
+}
+
+.quickButton:hover:not(:disabled) {
+    background: var(--surface-2);
+}
+
+.quickButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+.summary {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 12px 0;
+    border-block: 1px solid var(--rule);
+    font-size: 13px;
+}
+
+.summary div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.summary dt {
+    color: var(--ink-2);
+}
+
+.summary dd {
+    margin: 0;
+}
+
+.feedback {
+    font-size: 13px;
+}
+
+.success {
+    color: var(--up);
+}
+
+.error {
+    color: var(--down);
+}

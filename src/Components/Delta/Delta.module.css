@@ -1,0 +1,15 @@
+.delta {
+    white-space: nowrap;
+}
+
+.up {
+    color: var(--up);
+}
+
+.down {
+    color: var(--down);
+}
+
+.flat {
+    color: var(--ink-3);
+}

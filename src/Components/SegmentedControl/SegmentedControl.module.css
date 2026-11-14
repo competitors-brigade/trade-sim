@@ -1,0 +1,31 @@
+.group {
+    display: inline-flex;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
+}
+
+.option {
+    padding: 5px 12px;
+    border: 0;
+    border-right: 1px solid var(--rule);
+    background: transparent;
+    color: var(--ink-2);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.option:last-child {
+    border-right: 0;
+}
+
+.option:hover {
+    background: var(--surface-2);
+}
+
+.active,
+.active:hover {
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+}

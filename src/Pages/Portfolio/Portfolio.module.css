@@ -1,0 +1,43 @@
+.tiles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.symbol {
+    color: var(--accent-ink);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.symbol:hover {
+    text-decoration: underline;
+}
+
+.buy {
+    color: var(--up);
+    font-weight: 500;
+}
+
+.sell {
+    color: var(--down);
+    font-weight: 500;
+}
+
+.muted {
+    color: var(--ink-3);
+}
+
+@media (max-width: 700px) {
+    .tiles {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

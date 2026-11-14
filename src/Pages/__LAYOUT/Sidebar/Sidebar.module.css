@@ -1,0 +1,184 @@
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 22px 14px 18px;
+    border-right: 1px solid var(--rule);
+    background: var(--surface);
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 8px;
+}
+
+.mark {
+    width: 26px;
+    height: 26px;
+    border-radius: 5px;
+    background: var(--accent);
+    clip-path: polygon(0 100%, 0 62%, 30% 38%, 52% 58%, 100% 0, 100% 100%);
+}
+
+.name {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.tagline {
+    color: var(--ink-3);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-left: 2px solid transparent;
+    border-radius: var(--radius);
+    color: var(--ink-2);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.link:hover {
+    background: var(--surface-2);
+    color: var(--ink);
+}
+
+.active,
+.active:hover {
+    border-left-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.status {
+    padding: 12px;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    background: var(--bg);
+}
+
+.account {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 0 6px;
+}
+
+.accountText {
+    min-width: 0;
+}
+
+.accountName,
+.accountEmail {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.accountName {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.accountEmail {
+    color: var(--ink-3);
+    font-size: 11px;
+}
+
+.signOut {
+    flex: none;
+    padding: 4px 8px;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--ink-2);
+    font-size: 12px;
+}
+
+.signOut:hover {
+    background: var(--surface-2);
+    color: var(--ink);
+}
+
+.statusLabel {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.statusDetail {
+    margin-top: 2px;
+    color: var(--ink-2);
+    font-size: 12px;
+}
+
+@media (max-width: 880px) {
+    .sidebar {
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        padding: 10px 12px;
+        border-right: 0;
+        border-bottom: 1px solid var(--rule);
+        overflow: auto hidden;
+    }
+
+    .brand p:last-child,
+    .status,
+    .accountEmail {
+        display: none;
+    }
+
+    .footer {
+        flex-direction: row;
+        align-items: center;
+        margin: 0 0 0 auto;
+    }
+
+    .brand {
+        flex: none;
+    }
+
+    .nav {
+        flex-direction: row;
+    }
+
+    .link {
+        padding: 7px 10px;
+        border-left: 0;
+        white-space: nowrap;
+    }
+
+    .link span {
+        display: none;
+    }
+
+    .active span {
+        display: inline;
+    }
+}

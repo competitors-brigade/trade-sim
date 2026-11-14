@@ -1,0 +1,37 @@
+.sort {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+}
+
+.sort:hover {
+    color: var(--ink);
+}
+
+.company {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    column-gap: 10px;
+    text-decoration: none;
+}
+
+.symbol {
+    grid-row: span 2;
+    align-self: center;
+    color: var(--accent-ink);
+    font-family: var(--font-mono);
+    font-weight: 500;
+}
+
+.name {
+    font-weight: 500;
+}
+
+.sector {
+    color: var(--ink-3);
+    font-size: 12px;
+}

@@ -1,0 +1,85 @@
+.container {
+    position: relative;
+    width: 100%;
+}
+
+.svg {
+    display: block;
+    overflow: visible;
+}
+
+.positive {
+    --series: var(--up);
+}
+
+.negative {
+    --series: var(--down);
+}
+
+.line {
+    fill: none;
+    stroke: var(--series);
+    stroke-width: 1.75;
+    stroke-linejoin: round;
+}
+
+.area {
+    fill: var(--series);
+    opacity: 0.08;
+}
+
+.grid {
+    stroke: var(--rule);
+    stroke-width: 1;
+}
+
+.baseline {
+    stroke: var(--accent);
+    stroke-dasharray: 4 4;
+    stroke-width: 1;
+}
+
+.cursor {
+    stroke: var(--rule-strong);
+    stroke-width: 1;
+}
+
+.dot {
+    fill: var(--surface);
+    stroke: var(--series);
+    stroke-width: 2;
+}
+
+.tickLabel {
+    fill: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 11px;
+}
+
+.tooltip {
+    position: absolute;
+    top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px 10px;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    font-size: 13px;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.tooltipLabel {
+    color: var(--ink-3);
+    font-size: 11px;
+}
+
+.empty {
+    display: grid;
+    height: 100%;
+    place-items: center;
+    color: var(--ink-3);
+    text-align: center;
+}

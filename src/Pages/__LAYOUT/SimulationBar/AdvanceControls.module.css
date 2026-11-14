@@ -1,0 +1,68 @@
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-left: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+}
+
+.label {
+    color: var(--ink-3);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.presets {
+    display: inline-flex;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.preset {
+    min-width: 44px;
+    padding: 6px 12px;
+    border: 0;
+    border-right: 1px solid var(--rule);
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+
+.preset:last-child {
+    border-right: 0;
+}
+
+.preset:hover {
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+}
+
+.custom {
+    display: flex;
+    gap: 6px;
+}
+
+.input {
+    width: 84px;
+}
+
+.preview {
+    min-height: 18px;
+    color: var(--ink-2);
+    font-size: 12px;
+    text-align: right;
+}
+
+.finished {
+    margin-left: auto;
+    color: var(--ink-2);
+}

@@ -1,0 +1,65 @@
+.bar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 36px;
+    padding: 12px 32px 14px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--surface);
+}
+
+.clock,
+.account {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.label {
+    color: var(--ink-3);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.date {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.time {
+    color: var(--accent-ink);
+}
+
+.hours {
+    color: var(--ink-2);
+    font-size: 12px;
+}
+
+.equity {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.progress {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: transparent;
+}
+
+.progress span {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+}
+
+@media (max-width: 880px) {
+    .bar {
+        padding: 12px 16px 14px;
+    }
+}

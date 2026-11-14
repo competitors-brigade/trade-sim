@@ -1,0 +1,48 @@
+:root {
+    --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+
+    --bg: #f6f2e8;
+    --surface: #fffdf8;
+    --surface-2: #f0eadb;
+    --ink: #231f16;
+    --ink-2: #5c5545;
+    --ink-3: #8c846e;
+    --rule: #e3dbc6;
+    --rule-strong: #cdc2a3;
+
+    --accent: #b8892a;
+    --accent-ink: #7a5a0f;
+    --accent-soft: #f3e8c8;
+    --on-accent: #1f1707;
+
+    --up: #2c7a4d;
+    --down: #b2392d;
+
+    --shadow: 0 1px 0 rgb(35 31 22 / 4%);
+    --radius: 3px;
+    --sidebar-width: 236px;
+    --content-max: 1180px;
+}
+
+:root[data-theme="dark"] {
+    --bg: #14120d;
+    --surface: #1b1812;
+    --surface-2: #242017;
+    --ink: #efe8d6;
+    --ink-2: #b4ab93;
+    --ink-3: #7f7863;
+    --rule: #2f2a1e;
+    --rule-strong: #443d2b;
+
+    --accent: #d4a843;
+    --accent-ink: #e3c068;
+    --accent-soft: #2f2711;
+    --on-accent: #1a1405;
+
+    --up: #5bb985;
+    --down: #e27a6c;
+
+    --shadow: none;
+}

@@ -1,0 +1,106 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.back {
+    color: var(--ink-2);
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.back:hover {
+    color: var(--ink);
+}
+
+.titleRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 14px;
+}
+
+.title {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.15;
+}
+
+.symbol {
+    margin-right: 6px;
+    color: var(--accent-ink);
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.sector {
+    color: var(--ink-3);
+    font-size: 12px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.priceRow {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.price {
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.window {
+    color: var(--ink-3);
+    font-size: 12px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 16px;
+    align-items: start;
+}
+
+.main,
+.side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.position {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+}
+
+.position div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.position dt {
+    color: var(--ink-2);
+}
+
+.position dd {
+    margin: 0;
+}
+
+.muted {
+    color: var(--ink-2);
+}
+
+@media (max-width: 1000px) {
+    .layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
