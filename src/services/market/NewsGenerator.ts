@@ -10,12 +10,13 @@ import { SECTOR_NEWS } from "@/data/news/sectorNews";
 import { hourToDate } from "@/util/time/calendar";
 import { createRng } from "./random";
 import type { Rng } from "./random";
-import type { ImpactLevel, MarketEvent, NewsScope, NewsTemplate, Sentiment, StockDefinition } from "@/types/market";
+import type { MarketEvent, NewsScope, NewsTemplate, Sentiment, StockDefinition } from "@/types/market";
 
 type EventDraft = Omit<MarketEvent, "id">;
 type TemplateDecks = Record<Sentiment, () => NewsTemplate>;
 
 const SENTIMENTS: readonly Sentiment[] = ["positive", "negative"];
+const IMPACT_PATTERN_SIZE = 20;
 
 const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
@@ -34,13 +35,6 @@ const expandFrames = (frames: readonly string[], drivers: readonly string[], sum
         })),
     );
 
-const classify = (strength: number): ImpactLevel => {
-    const { low, medium } = MARKET_MODEL.impactThresholds;
-    if (strength < low) return "low";
-    if (strength < medium) return "medium";
-    return "high";
-};
-
 const pickScope = (rng: Rng): NewsScope => {
     const entries = Object.entries(MARKET_MODEL.news.mix) as Array<[NewsScope, number]>;
     const total = entries.reduce((sum, [, weight]) => sum + weight, 0);
@@ -52,7 +46,7 @@ const pickScope = (rng: Rng): NewsScope => {
     return entries[entries.length - 1][0];
 };
 
-const rollEvent = (rng: Rng, scope: NewsScope, hour: number) => {
+const rollEvent = (rng: Rng, scope: NewsScope, hour: number, impactful: boolean) => {
     const profile = MARKET_MODEL.scopes[scope];
     const strength = rng.next() ** MARKET_MODEL.strengthExponent;
     const magnitude = profile.magnitude.min + (profile.magnitude.max - profile.magnitude.min) * strength;
@@ -63,8 +57,8 @@ const rollEvent = (rng: Rng, scope: NewsScope, hour: number) => {
         scope,
         sentiment,
         hour,
-        impact: classify(strength),
-        logImpact: realized === "positive" ? magnitude : -magnitude,
+        impactful,
+        logImpact: !impactful ? 0 : realized === "positive" ? magnitude : -magnitude,
         durationHours: rng.int(profile.duration.min, profile.duration.max),
     };
 };
@@ -73,6 +67,8 @@ const generateEvents = (seed: string, stocks: readonly StockDefinition[] = STOCK
     const rng = createRng(`${seed}:news`);
     const { articlesPerWindow, windowHours } = MARKET_MODEL.news;
 
+    const impactfulCount = Math.round(MARKET_MODEL.news.impactfulShare * IMPACT_PATTERN_SIZE);
+    const nextImpactful = rng.deck(Array.from({ length: IMPACT_PATTERN_SIZE }, (_, index) => index < impactfulCount));
     const nextStock = rng.deck(stocks);
     const nextSector = rng.deck(SECTORS);
     const topicDecks = new Map(stocks.map((stock) => [stock.symbol, rng.deck(COMPANY_TOPICS)]));
@@ -112,7 +108,7 @@ const generateEvents = (seed: string, stocks: readonly StockDefinition[] = STOCK
         for (let slot = 0; slot < articlesPerWindow; slot++) {
             const hour = rng.int(start, end);
             const scope = pickScope(rng);
-            const roll = rollEvent(rng, scope, hour);
+            const roll = rollEvent(rng, scope, hour, nextImpactful());
 
             if (scope === "company") {
                 const stock = nextStock();

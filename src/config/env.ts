@@ -1,6 +1,6 @@
 const env = import.meta.env;
 
-const MARKET_SEED = env.VITE_MARKET_SEED || "cb-season-6";
+const MARKET_SEED = env.VITE_MARKET_SEED || "cb-season-8";
 const COMPETITION_START = env.VITE_COMPETITION_START || null;
 const SUPABASE_URL = env.VITE_SUPABASE_URL || null;
 const SUPABASE_ANON_KEY = env.VITE_SUPABASE_ANON_KEY || null;

@@ -4,7 +4,7 @@ import { STOCKS } from "@/data/stocks";
 import { clamp } from "@/util/math/numbers";
 import { HOURS_PER_DAY, DAYS_PER_WEEK } from "@/util/time/calendar";
 import { buildMarket } from "./MarketEngine";
-import type { Market, NewsArticle, PricePoint, Quote } from "@/types/market";
+import type { Candle, Market, NewsArticle, PricePoint, Quote } from "@/types/market";
 
 const HOURS_PER_WEEK = HOURS_PER_DAY * DAYS_PER_WEEK;
 
@@ -49,9 +49,28 @@ const getPriceSeries = (symbol: string, fromHour: number, toHour: number, maxPoi
     return points;
 };
 
-const getNewsUpTo = (hour: number): NewsArticle[] =>
+const getCandles = (symbol: string, fromHour: number, toHour: number, intervalHours: number): Candle[] => {
+    const prices = getMarket().series[symbol];
+    const to = clampHour(toHour);
+    const candles: Candle[] = [];
+
+    for (let start = Math.floor(clampHour(fromHour) / intervalHours) * intervalHours; start < to; start += intervalHours) {
+        const end = Math.min(start + intervalHours, to);
+        let high = -Infinity;
+        let low = Infinity;
+        for (let hour = start; hour <= end; hour++) {
+            high = Math.max(high, prices[hour]);
+            low = Math.min(low, prices[hour]);
+        }
+        candles.push({ hour: start, endHour: end, open: prices[start], high, low, close: prices[end] });
+    }
+    return candles;
+};
+
+const getNewsUpTo = (upToHour: number): NewsArticle[] =>
     getMarket()
-        .events.filter((event) => event.hour <= hour)
+        .events.filter((event) => event.hour <= upToHour)
+        .map(({ id, hour, scope, symbol, sector, headline, summary }) => ({ id, hour, scope, symbol, sector, headline, summary }))
         .reverse();
 
 const getEqualWeightReturn = (hour: number) => {
@@ -59,4 +78,4 @@ const getEqualWeightReturn = (hour: number) => {
     return total / STOCKS.length - 1;
 };
 
-export { getPrice, getQuote, getQuotes, getPriceSeries, getNewsUpTo, getEqualWeightReturn };
+export { getPrice, getQuote, getQuotes, getPriceSeries, getCandles, getNewsUpTo, getEqualWeightReturn };

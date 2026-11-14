@@ -88,3 +88,25 @@
 .notice {
     color: var(--accent-ink);
 }
+
+.google {
+    width: 100%;
+    padding: 9px 14px;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    color: var(--ink-3);
+    font-size: 12px;
+}
+
+.divider::before,
+.divider::after {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    content: "";
+}

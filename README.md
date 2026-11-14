@@ -15,6 +15,10 @@ The mock server prints a seeded login (all seeded accounts use `password123`). W
 
 For real Supabase, run `supabase/schema.sql` in the SQL editor and set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
 
+## Google sign-in
+
+In Supabase go to Authentication → Providers → Google, enable it, and paste a Google OAuth client ID and secret (created in Google Cloud Console → APIs & Services → Credentials, type "Web application"). Add the callback URL shown in Supabase to the client's authorized redirect URIs, and add your site URL (e.g. `http://localhost:5173`) under Authentication → URL Configuration. The mock server simulates the Google flow with a demo account.
+
 ## Rules
 
 Rules live in `src/data/gameRules.ts`: starting cash, 150% growth cap, 100% loss limit (both across the whole account for the year), 6-week competition length. Set `VITE_COMPETITION_START` (YYYY-MM-DD) to enforce the 6-week window; scores are only recorded while it is open.

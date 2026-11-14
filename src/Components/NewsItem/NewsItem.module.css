@@ -24,19 +24,6 @@
     letter-spacing: 0.04em;
 }
 
-.sentiment {
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.positive {
-    color: var(--up);
-}
-
-.negative {
-    color: var(--down);
-}
-
 .time {
     color: var(--ink-3);
     font-family: var(--font-mono);
@@ -56,24 +43,6 @@
 .scope {
     color: var(--ink-2);
     text-transform: uppercase;
-}
-
-.impact {
-    display: inline-flex;
-    gap: 2px;
-    margin-left: auto;
-}
-
-.pip {
-    width: 6px;
-    height: 6px;
-    border: 1px solid var(--ink-3);
-    border-radius: 1px;
-}
-
-.pipFilled {
-    background: var(--accent);
-    border-color: var(--accent);
 }
 
 .headline {

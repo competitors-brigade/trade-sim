@@ -46,7 +46,7 @@ const buildMarket = (seed: string, stocks: readonly StockDefinition[] = STOCKS):
     for (const stock of stocks) {
         const eventDrift = new Float64Array(hours + 1);
         for (const event of events) {
-            if (affectsStock(event, stock)) scheduleImpact(eventDrift, event, exposureOf(event, stock));
+            if (event.impactful && affectsStock(event, stock)) scheduleImpact(eventDrift, event, exposureOf(event, stock));
         }
 
         const sigma = stock.annualVolatility;

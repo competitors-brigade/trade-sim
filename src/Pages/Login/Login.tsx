@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { Navigate } from "react-router";
 import SegmentedControl from "@/Components/SegmentedControl/SegmentedControl";
 import { useAppDispatch, useAppSelector } from "@/Hooks/redux";
-import { signIn, signInAsGuest, signUp } from "@/Redux/Slices/authSlice";
+import { signIn, signInAsGuest, signInWithGoogle, signUp } from "@/Redux/Slices/authSlice";
 import authService from "@/services/auth/AuthService";
 import styles from "./Login.module.css";
 
@@ -66,7 +66,17 @@ const Login = () => {
                         : "Trade a simulated year, climb the leaderboard, and keep your progress across devices."}
                 </p>
 
-                {!guestMode && <SegmentedControl label="Account mode" options={MODE_OPTIONS} value={mode} onChange={setMode} />}
+                {!guestMode && (
+                    <>
+                        <button type="button" className={`button ${styles.google}`} disabled={busy} onClick={() => void dispatch(signInWithGoogle())}>
+                            Continue with Google
+                        </button>
+                        <p className={styles.divider}>
+                            <span>or use email</span>
+                        </p>
+                        <SegmentedControl label="Account mode" options={MODE_OPTIONS} value={mode} onChange={setMode} />
+                    </>
+                )}
 
                 <form className={styles.form} onSubmit={submit}>
                     {showName && (

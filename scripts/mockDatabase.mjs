@@ -10,6 +10,7 @@ const PERSIST_FILE = fileURLToPath(new URL("./.mock-db.json", import.meta.url));
 
 const TOKEN_LIFETIME_SECONDS = 3600;
 const MIN_PASSWORD_LENGTH = 6;
+const GOOGLE_DEMO = { email: "google.demo@example.com", display_name: "Google Demo" };
 const RESERVED_PARAMS = new Set(["select", "order", "limit", "offset", "on_conflict", "columns"]);
 
 const TABLES = {
@@ -107,7 +108,7 @@ const publicUser = (user) => ({
     created_at: user.created_at,
     updated_at: user.updated_at ?? user.created_at,
     app_metadata: { provider: "email", providers: ["email"] },
-    user_metadata: { display_name: user.display_name },
+    user_metadata: { display_name: user.display_name, full_name: user.display_name },
     identities: [],
 });
 
@@ -258,6 +259,29 @@ const main = async () => {
             }
         }
 
+        if (route === "authorize" && request.method === "GET") {
+            const redirectTo = url.searchParams.get("redirect_to");
+            if (url.searchParams.get("provider") !== "google" || !redirectTo) return authError(response, 400, "validation_failed", "Unsupported provider");
+
+            let user = store.users.find((candidate) => candidate.email === GOOGLE_DEMO.email);
+            if (!user) {
+                user = { id: randomUUID(), password_hash: "", created_at: new Date().toISOString(), ...GOOGLE_DEMO };
+                store.users.push(user);
+                await persist();
+            }
+            const session = createSession(user);
+            const hash = new URLSearchParams({
+                access_token: session.access_token,
+                expires_at: String(session.expires_at),
+                expires_in: String(session.expires_in),
+                refresh_token: session.refresh_token,
+                token_type: "bearer",
+                provider_token: "mock-google-token",
+            });
+            response.writeHead(302, { Location: `${redirectTo}#${hash}` });
+            return response.end();
+        }
+
         if (route === "logout" && request.method === "POST") return send(response, 204);
 
         return authError(response, 404, "not_found", "Unsupported auth route");
@@ -369,7 +393,7 @@ const main = async () => {
         const sample = store.users[0];
         console.log(`Mock Supabase running at http://localhost:${options.port}`);
         console.log(`Seeded ${store.users.length} accounts and ${store.leaderboard.length} leaderboard rows${options.persist ? ` (persisting to ${PERSIST_FILE})` : ""}`);
-        if (sample) console.log(`Sign in with e.g. ${sample.email} / ${options.password}`);
+        if (sample) console.log(`Sign in with e.g. ${sample.email} / ${options.password}, or use "Continue with Google" for a demo Google account`);
         console.log(`Set VITE_SUPABASE_URL=http://localhost:${options.port} and any VITE_SUPABASE_ANON_KEY`);
     });
 };

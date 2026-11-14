@@ -66,7 +66,7 @@ const News = () => {
         <>
             <PageHeader
                 title="News"
-                description="Headlines move prices, though not always the way the first read suggests. Impact pips show how big the story is likely to be."
+                description="Not every headline moves a stock. Decide which stories are real and which are noise."
                 actions={<SegmentedControl label="News filter" options={FILTER_OPTIONS} value={filter} onChange={changeFilter} />}
             />
 

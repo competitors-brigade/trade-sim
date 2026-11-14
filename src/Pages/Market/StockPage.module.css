@@ -104,3 +104,10 @@
         grid-template-columns: minmax(0, 1fr);
     }
 }
+
+.caption {
+    margin-top: 8px;
+    color: var(--ink-3);
+    font-size: 12px;
+    text-align: right;
+}

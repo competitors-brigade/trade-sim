@@ -2,7 +2,6 @@ import type { SectorId } from "@/data/sectors";
 
 type NewsScope = "company" | "sector" | "market";
 type Sentiment = "positive" | "negative";
-type ImpactLevel = "low" | "medium" | "high";
 
 interface StockDefinition {
     symbol: string;
@@ -30,13 +29,13 @@ interface NewsArticle {
     scope: NewsScope;
     symbol?: string;
     sector?: SectorId;
-    sentiment: Sentiment;
-    impact: ImpactLevel;
     headline: string;
     summary: string;
 }
 
 interface MarketEvent extends NewsArticle {
+    sentiment: Sentiment;
+    impactful: boolean;
     logImpact: number;
     durationHours: number;
 }
@@ -59,9 +58,19 @@ interface Market {
     events: MarketEvent[];
 }
 
+interface Candle {
+    hour: number;
+    endHour: number;
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+}
+
 interface NewsRate {
     articlesPerWindow: number;
     windowHours: number;
+    impactfulShare: number;
     mix: Record<NewsScope, number>;
 }
 
@@ -84,7 +93,6 @@ interface MarketModel {
     immediateShare: number;
     strengthExponent: number;
     eventBlackoutHours: number;
-    impactThresholds: { low: number; medium: number };
     news: NewsRate;
     scopes: Record<NewsScope, ScopeProfile>;
 }
@@ -92,7 +100,6 @@ interface MarketModel {
 export type {
     NewsScope,
     Sentiment,
-    ImpactLevel,
     StockDefinition,
     NewsTemplate,
     SentimentPair,
@@ -100,6 +107,7 @@ export type {
     MarketEvent,
     Quote,
     PricePoint,
+    Candle,
     Market,
     NewsRate,
     Range,

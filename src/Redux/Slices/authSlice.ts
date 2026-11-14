@@ -52,6 +52,14 @@ const signUp = createAsyncThunk<SignUpResult, SignUpArgs, { rejectValue: string 
     },
 );
 
+const signInWithGoogle = createAsyncThunk<void, void, { rejectValue: string }>("auth/google", async (_, { rejectWithValue }) => {
+    try {
+        await authService.signInWithGoogle();
+    } catch (error) {
+        return rejectWithValue(errorMessage(error));
+    }
+});
+
 const signInAsGuest = createAsyncThunk<void, string, { rejectValue: string }>("auth/guest", async (displayName, { dispatch, rejectWithValue }) => {
     try {
         dispatch(sessionChanged(await authService.signInAsGuest(displayName)));
@@ -102,7 +110,7 @@ const authSlice = createSlice({
                 state.loadedSaveFor = action.payload.userId;
             });
 
-        for (const thunk of [signIn, signUp, signInAsGuest, updateDisplayName]) {
+        for (const thunk of [signIn, signUp, signInWithGoogle, signInAsGuest, updateDisplayName]) {
             builder
                 .addCase(thunk.pending, pending)
                 .addCase(thunk.rejected, rejected)
@@ -114,4 +122,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export { restoreSession, signIn, signUp, signInAsGuest, signOut, updateDisplayName };
+export { restoreSession, signIn, signUp, signInWithGoogle, signInAsGuest, signOut, updateDisplayName };

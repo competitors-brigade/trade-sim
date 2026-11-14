@@ -29,6 +29,7 @@ const createGuestAuth = (): AuthProvider => ({
 
     signIn: unsupported,
     signUp: unsupported,
+    signInWithGoogle: unsupported,
 
     signInAsGuest: async (displayName) => {
         const name = cleanName(displayName);

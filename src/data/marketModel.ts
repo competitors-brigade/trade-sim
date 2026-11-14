@@ -4,14 +4,14 @@ const MARKET_MODEL: MarketModel = {
     marketAnnualVolatility: 0.16,
     backgroundVolatilityScale: 0.9,
     idiosyncraticFloor: 0.5,
-    misreadRate: 0.12,
+    misreadRate: 0,
     immediateShare: 0.3,
     strengthExponent: 3,
     eventBlackoutHours: 24,
-    impactThresholds: { low: 0.2, medium: 0.5 },
     news: {
         articlesPerWindow: 2,
         windowHours: 6,
+        impactfulShare: 0.4,
         mix: { company: 0.7, sector: 0.2, market: 0.1 },
     },
     scopes: {

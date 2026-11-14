@@ -2,20 +2,22 @@ import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router";
 import Delta from "@/Components/Delta/Delta";
 import EmptyState from "@/Components/EmptyState/EmptyState";
+import CandlestickChart from "@/Components/CandlestickChart/CandlestickChart";
 import LineChart from "@/Components/LineChart/LineChart";
 import NewsItem from "@/Components/NewsItem/NewsItem";
 import Panel from "@/Components/Panel/Panel";
 import SegmentedControl from "@/Components/SegmentedControl/SegmentedControl";
 import TradeTicket from "@/Components/TradeTicket/TradeTicket";
-import { CHART_RANGES, DEFAULT_CHART_RANGE } from "@/data/chartRanges";
+import { CHART_RANGES, CHART_TYPES, DEFAULT_CHART_RANGE, type ChartType } from "@/data/chartRanges";
 import { SECTOR_LABELS } from "@/data/sectors";
 import { useAppSelector } from "@/Hooks/redux";
 import { useStock } from "@/Hooks/useMarket";
 import { usePositions } from "@/Hooks/usePortfolio";
 import { selectNews } from "@/Redux/selectors";
-import { getPriceSeries } from "@/services/market/Market";
+import { getCandles, getPriceSeries } from "@/services/market/Market";
 import { formatInteger, formatMoney } from "@/util/format/numbers";
-import { formatSimDateTime, formatSimShortDate } from "@/util/time/format";
+import { pickCandleInterval } from "@/util/chart/candleInterval";
+import { formatDuration, formatSimDateTime, formatSimShortDate } from "@/util/time/format";
 import styles from "./StockPage.module.css";
 
 const CHART_POINTS = 240;
@@ -29,6 +31,7 @@ const StockPage = () => {
     const position = usePositions()[symbol ?? ""];
     const news = useAppSelector(selectNews);
     const [rangeValue, setRangeValue] = useState(DEFAULT_CHART_RANGE);
+    const [chartType, setChartType] = useState<ChartType>("line");
 
     const range = CHART_RANGES.find((candidate) => candidate.value === rangeValue) ?? CHART_RANGES[0];
     const hour = stock?.hour ?? 0;
@@ -39,6 +42,12 @@ const StockPage = () => {
                 ? getPriceSeries(symbol, Math.max(0, hour - range.hours), hour, CHART_POINTS).map((point) => ({ x: point.hour, y: point.price }))
                 : [],
         [symbol, stock, hour, range.hours],
+    );
+
+    const candleInterval = pickCandleInterval(hour - Math.max(0, hour - range.hours));
+    const candles = useMemo(
+        () => (symbol && stock && chartType === "candles" ? getCandles(symbol, Math.max(0, hour - range.hours), hour, candleInterval) : []),
+        [symbol, stock, chartType, hour, range.hours, candleInterval],
     );
 
     const related = useMemo(() => {
@@ -90,14 +99,35 @@ const StockPage = () => {
 
             <div className={styles.layout}>
                 <div className={styles.main}>
-                    <Panel title="Price history" actions={<SegmentedControl label="Chart range" options={rangeOptions} value={rangeValue} onChange={setRangeValue} />}>
-                        <LineChart
-                            points={points}
-                            formatY={formatMoney}
-                            formatTick={formatSimShortDate}
-                            formatTooltip={formatSimDateTime}
-                            emptyMessage="Advance the simulation to build a price history."
-                        />
+                    <Panel
+                        title="Price history"
+                        actions={
+                            <>
+                                <SegmentedControl label="Chart type" options={CHART_TYPES} value={chartType} onChange={setChartType} />
+                                <SegmentedControl label="Chart range" options={rangeOptions} value={rangeValue} onChange={setRangeValue} />
+                            </>
+                        }
+                    >
+                        {chartType === "line" ? (
+                            <LineChart
+                                points={points}
+                                formatY={formatMoney}
+                                formatTick={formatSimShortDate}
+                                formatTooltip={formatSimDateTime}
+                                emptyMessage="Advance the simulation to build a price history."
+                            />
+                        ) : (
+                            <>
+                                <CandlestickChart
+                                    candles={candles}
+                                    formatY={formatMoney}
+                                    formatTick={formatSimShortDate}
+                                    formatTooltip={formatSimDateTime}
+                                    emptyMessage="Advance the simulation to build a price history."
+                                />
+                                <p className={styles.caption}>{formatDuration(candleInterval)} per candle</p>
+                            </>
+                        )}
                     </Panel>
 
                     <Panel title="Related news">

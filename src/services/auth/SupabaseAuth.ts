@@ -5,11 +5,12 @@ import type { AuthProvider } from "./AuthProvider";
 const DEFAULT_NAME = "Player";
 
 const toAuthUser = (user: User): AuthUser => {
-    const metadataName = user.user_metadata?.display_name;
+    const metadata = user.user_metadata ?? {};
+    const metadataName = [metadata.display_name, metadata.full_name, metadata.name].find((value) => typeof value === "string" && value);
     return {
         id: user.id,
         email: user.email ?? null,
-        displayName: (typeof metadataName === "string" && metadataName) || user.email?.split("@")[0] || DEFAULT_NAME,
+        displayName: (metadataName as string | undefined) || user.email?.split("@")[0] || DEFAULT_NAME,
     };
 };
 
@@ -33,6 +34,11 @@ const createSupabaseAuth = (client: SupabaseClient): AuthProvider => ({
         if (error) throw new Error(error.message);
         if (data.session && data.user) return { user: toAuthUser(data.user), confirmationRequired: false };
         return { user: null, confirmationRequired: true };
+    },
+
+    signInWithGoogle: async () => {
+        const { error } = await client.auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${window.location.origin}/` } });
+        if (error) throw new Error(error.message);
     },
 
     signInAsGuest: async () => {

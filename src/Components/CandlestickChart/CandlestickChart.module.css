@@ -1,0 +1,86 @@
+.container {
+    position: relative;
+    width: 100%;
+}
+
+.svg {
+    display: block;
+    overflow: visible;
+}
+
+.grid {
+    stroke: var(--rule);
+    stroke-width: 1;
+}
+
+.tickLabel {
+    fill: var(--ink-3);
+    font-family: var(--font-mono);
+    font-size: 11px;
+}
+
+.rising {
+    --candle: var(--up);
+}
+
+.falling {
+    --candle: var(--down);
+}
+
+.wick {
+    stroke: var(--candle);
+    stroke-width: 1;
+}
+
+.body {
+    fill: var(--candle);
+}
+
+.active .body {
+    stroke: var(--ink);
+    stroke-width: 1;
+}
+
+.tooltip {
+    position: absolute;
+    top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px 10px;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    font-size: 13px;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.tooltipLabel {
+    color: var(--ink-3);
+    font-size: 11px;
+}
+
+.values {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 2px 12px;
+    margin: 0;
+}
+
+.values dt {
+    color: var(--ink-3);
+}
+
+.values dd {
+    margin: 0;
+    text-align: right;
+}
+
+.empty {
+    display: grid;
+    height: 100%;
+    place-items: center;
+    color: var(--ink-3);
+    text-align: center;
+}
